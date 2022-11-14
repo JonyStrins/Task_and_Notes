@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="356dp"
-        android:text="Hello World!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddBtn"
         android:layout_width="wrap_content"
@@ -48,10 +39,47 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="invisible"
         android:tint="@color/white"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fabAddNote"
         app:layout_constraintEnd_toEndOf="@+id/fabAddNote"
         app:srcCompat="@drawable/ic_add_task" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tglBtnGrp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/btnNotes"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
+            tools:layout_editor_absoluteX="138dp"
+            tools:layout_editor_absoluteY="148dp" />
+
+        <Button
+            android:id="@+id/btnTask"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Task"
+            tools:layout_editor_absoluteX="138dp"
+            tools:layout_editor_absoluteY="211dp" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/fabAddBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tglBtnGrp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

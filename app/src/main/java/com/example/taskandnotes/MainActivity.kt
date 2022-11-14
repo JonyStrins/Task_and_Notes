@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import com.example.taskandnotes.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -17,27 +18,40 @@ class MainActivity : AppCompatActivity() {
     private val toBottom: Animation by lazy{ AnimationUtils.loadAnimation(this, R.anim.to_botton_anim) }
 
     private var clicked = false
+    private var lastClicked = R.id.btnNotes
 
-    lateinit var addBtn: FloatingActionButton
-    lateinit var addNoteBtn: FloatingActionButton
-    lateinit var addTaskBtn: FloatingActionButton
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        addBtn = findViewById(R.id.fabAddBtn)
-        addNoteBtn = findViewById(R.id.fabAddNote)
-        addTaskBtn = findViewById(R.id.fabAddTask)
-
-        addBtn.setOnClickListener{
+        binding.fabAddBtn.setOnClickListener{
             onAddButtonClicked()
         }
-        addNoteBtn.setOnClickListener{
+        binding.fabAddNote.setOnClickListener{
             Toast.makeText(this, "Agregar Nota", Toast.LENGTH_LONG).show()
         }
-        addTaskBtn.setOnClickListener{
+        binding.fabAddTask.setOnClickListener{
             Toast.makeText(this, "Agregar Tarea", Toast.LENGTH_LONG).show()
+        }
+
+        binding.tglBtnGrp.check(R.id.btnNotes)
+
+        binding.tglBtnGrp.addOnButtonCheckedListener { tglBtnGrp, checkedId, isChecked ->
+            if(isChecked){
+                when(checkedId){
+                    R.id.btnNotes -> { Toast.makeText(this,"Aqui se muestran las notas",Toast.LENGTH_SHORT).show()
+                    lastClicked = R.id.btnNotes }
+                    R.id.btnTask -> { Toast.makeText(this,"Aqui se muestran las tareas",Toast.LENGTH_SHORT).show()
+                    lastClicked = R.id.btnTask }
+                }
+            }else{
+                if(tglBtnGrp.checkedButtonId == View.NO_ID){
+                    tglBtnGrp.check(lastClicked)
+                }
+            }
         }
     }
 
@@ -48,28 +62,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setVisibility(clicked: Boolean) {
-        addNoteBtn = findViewById(R.id.fabAddNote)
-        addTaskBtn = findViewById(R.id.fabAddTask)
         if (!clicked){
-            addNoteBtn.visibility = View.VISIBLE
-            addTaskBtn.visibility = View.VISIBLE
+            binding.fabAddNote.visibility = View.VISIBLE
+            binding.fabAddTask.visibility = View.VISIBLE
         }else{
-            addNoteBtn.visibility = View.INVISIBLE
-            addTaskBtn.visibility = View.INVISIBLE
+            binding.fabAddNote.visibility = View.INVISIBLE
+            binding.fabAddTask.visibility = View.INVISIBLE
         }
     }
 
     private fun setAnimation(clicked: Boolean) {
-        addNoteBtn = findViewById(R.id.fabAddNote)
-        addTaskBtn = findViewById(R.id.fabAddTask)
         if (!clicked){
-            addNoteBtn.startAnimation(fromBottom)
-            addTaskBtn.startAnimation(fromBottom)
-            addBtn.startAnimation(rotateOpen)
+            binding.fabAddNote.startAnimation(fromBottom)
+            binding.fabAddTask.startAnimation(fromBottom)
+            binding.fabAddBtn.startAnimation(rotateOpen)
         } else {
-            addNoteBtn.startAnimation(toBottom)
-            addTaskBtn.startAnimation(toBottom)
-            addBtn.startAnimation(rotateClose)
+            binding.fabAddNote.startAnimation(toBottom)
+            binding.fabAddTask.startAnimation(toBottom)
+            binding.fabAddBtn.startAnimation(rotateClose)
         }
     }
 }
